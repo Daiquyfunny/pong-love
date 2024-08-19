@@ -24,7 +24,6 @@ end
 local function bounceBall(circle, paddle)
 	circle.vx = -circle.vx
 
-	-- Optional: Add variation to vertical velocity based on where it hits the paddle
 	local hitPosition = (circle.y - paddle.y) / paddle.height
 	local newAngle = hitPosition * math.pi / 4
 	local newSpeed = math.sqrt(circle.vx ^ 2 + circle.vy ^ 2)
