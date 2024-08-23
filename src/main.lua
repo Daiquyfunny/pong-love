@@ -14,11 +14,10 @@ local tennis = ball.new(screenWidth / 2, screenHeight / 2, 10, constSpeedBall)
 function love.load() end
 
 local function collisionDetection(circle, rect)
-	local closestX = math.max(rect.x, math.min(circle.x, rect.x + rect.width))
-	local closestY = math.max(rect.y, math.min(circle.y, rect.y + rect.height))
-
-	local distance = math.sqrt((circle.x - closestX) ^ 2 - (circle.y - closestY) ^ 2)
-	return distance <= circle.radius
+	return circle.x >= rect.x
+		and circle.x <= rect.x + rect.width
+		and circle.y >= rect.y
+		and circle.y <= rect.y + rect.height
 end
 
 local function bounceBall(circle, paddle)
@@ -56,16 +55,15 @@ function love.update(dt)
 	end
 
 	if collisionDetection(tennis, radketR) then
-		--tennis.vx = -math.abs(tennis.vx)
-
 		bounceBall(tennis, radketR)
+		print(tennis.vy)
 	elseif collisionDetection(tennis, radketL) then
-		--tennis.vx = math.abs(tennis.vx)
 		bounceBall(tennis, radketL)
+		print(tennis.vy)
 	end
 
-	if tennis.y >= screenHeight or tennis.y <= 0 then
-		tennis.vy = math.sqrt(tennis.vx ^ 2 + tennis.vy ^ 2) * math.sin(math.random(-math.pi / 4, math.pi / 4))
+	if tennis.y >= screenHeight - 20 or tennis.y <= 0 then
+		tennis.vy = -tennis.vy
 	end
 
 	if tennis.x <= 0 then
