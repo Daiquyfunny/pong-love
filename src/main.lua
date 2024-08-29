@@ -4,12 +4,16 @@ local ball = require("ball")
 local love = require("love")
 local screenWidth = love.graphics.getWidth()
 local screenHeight = love.graphics.getHeight()
-local constSpeedRadket = 235
-local constSpeedBall = 300
+local constSpeedRadket = 350
+local constSpeedBall = 500
 
 local radketR = radket.new(100 / 2, screenWidth - 65, screenHeight, constSpeedRadket)
 local radketL = radket.new(100 / 2, 50, screenHeight, constSpeedRadket)
 local tennis = ball.new(screenWidth / 2, screenHeight / 2, 10, constSpeedBall)
+local radketRW = 0
+local radketLW = 0
+local boing = love.audio.newSource("assets/wall_hit.wav", "static")
+local bing = love.audio.newSource("assets/paddle_hit.wav", "static")
 
 function love.load() end
 
@@ -30,6 +34,8 @@ local function bounceBall(circle, paddle)
 	if randomStuff == 1 then
 		circle.vy = newSpeed * math.sin(newAngle)
 	end
+
+	bing:play()
 end
 
 local function respawnBall(circle)
@@ -64,20 +70,23 @@ function love.update(dt)
 
 	if tennis.y >= screenHeight - 20 or tennis.y <= 0 then
 		tennis.vy = -tennis.vy
+		boing:play()
 	end
 
 	if tennis.x <= 0 then
-		print("right radket wins")
+		radketLW = radketLW + 1
+		love.graphics.print(radketLW, 35, screenHeight - screenHeight / 2)
 		respawnBall(tennis)
 	elseif tennis.x >= screenWidth then
-		print("left radket wins")
+		radketRW = radketRW + 1
+		love.graphics.print(radketRW, screenWidth - 35, screenHeight - screenHeight / 2)
 		respawnBall(tennis)
 	end
-
-	--print(tennis.x)
 end
 
 function love.draw()
+	love.graphics.print(radketRW, 35, screenHeight - screenHeight / 2)
+	love.graphics.print(radketLW, screenWidth - 35, screenHeight - screenHeight / 2)
 	radketR:draw()
 	radketL:draw()
 
