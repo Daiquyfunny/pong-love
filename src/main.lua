@@ -7,8 +7,8 @@ local screenHeight = love.graphics.getHeight()
 local constSpeedRadket = 235
 local constSpeedBall = 300
 
-local radketR = radket.new(100 / 2, 725, screenHeight, constSpeedRadket)
-local radketL = radket.new(100 / 2, 65, screenHeight, constSpeedRadket)
+local radketR = radket.new(100 / 2, screenWidth - 65, screenHeight, constSpeedRadket)
+local radketL = radket.new(100 / 2, 60, screenHeight, constSpeedRadket)
 local tennis = ball.new(screenWidth / 2, screenHeight / 2, 10, constSpeedBall)
 
 function love.load() end
