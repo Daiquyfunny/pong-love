@@ -1,7 +1,5 @@
 local radket = require("radket")
 local ball = require("ball")
-
-local love = require("love")
 local screenWidth = love.graphics.getWidth()
 local screenHeight = love.graphics.getHeight()
 local constSpeedRadket = 350
